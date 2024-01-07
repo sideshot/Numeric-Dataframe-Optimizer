@@ -31,7 +31,7 @@ import numpy as np
 # Your DataFrame
 original_df = ...
 
-optimized_df = optimize_df(original_df)
+optimized_df = numeric_df_optimizer(original_df)
 ```
 
 ## Implementation Details
