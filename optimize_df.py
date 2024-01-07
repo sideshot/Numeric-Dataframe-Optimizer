@@ -2,7 +2,7 @@
 import pandas as pd
 import numpy as np
 
-def optimize_df(df):
+def numeric_df_optimizer(df):
     print('Starting DataFrame Optimization')
     
     def determine_numeric_type(column):
@@ -126,6 +126,4 @@ def optimize_df(df):
 
     return df
 
-# Example usage
-optimized_df = optimize_df(original_df)
 
