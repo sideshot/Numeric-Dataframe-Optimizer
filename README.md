@@ -1,4 +1,4 @@
-# Pandas DataFrame Optimization Script
+# Pandas DataFrame Optimizer
 
 ## Overview
 This script is designed to optimize memory usage in large Pandas DataFrames. It intelligently selects the most appropriate data types for numeric columns, balancing memory efficiency with the need to represent the data accurately. This is particularly useful for large datasets, where memory management is crucial.
