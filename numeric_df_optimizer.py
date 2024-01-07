@@ -98,8 +98,6 @@ def numeric_df_optimizer(df):
     memory_usage_of_dataframe('Before Optimization: ', df)
 
     # queue up the datatypes to change all at once.
-    dtype_dict = {}
-    
     numeric_cols = df.select_dtypes(include=[np.number]).columns.tolist()
 
     for col in numeric_cols:
@@ -107,23 +105,18 @@ def numeric_df_optimizer(df):
     
         if numeric_type == 'int':
             best_type = best_fit_int_type(df[col])
-            dtype_dict[col] = best_type
+            df[col] = df[col].astype(best_type)
         elif numeric_type == 'float':
             best_type = best_fit_float_type(df[col])
-            dtype_dict[col] = best_type
+            df[col] = df[col].astype(best_type)
         elif numeric_type == 'empty':
             df = df.drop(columns=[col])
             continue
         else:
             continue
-    
-    # Apply the data types to the respective columns
-    df = df.astype(dtype_dict)
 
     print('DataFrame optimization Completed')
     
     memory_usage_of_dataframe('After Optimization:', df)
 
     return df
-
-
