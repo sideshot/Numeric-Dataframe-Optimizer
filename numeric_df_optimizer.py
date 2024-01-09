@@ -120,3 +120,57 @@ def numeric_df_optimizer(df):
     memory_usage_of_dataframe('After Optimization:', df)
 
     return df
+
+
+def generate_mysql_dtype_script(df: pd.DataFrame, table_name: str) -> str:
+    """
+    Generates a MySQL ALTER TABLE script to match the data types in a given Pandas DataFrame.
+
+    Args:
+    df (pd.DataFrame): The DataFrame whose schema is to be translated into MySQL.
+    table_name (str): The name of the MySQL table to be altered.
+
+    Returns:
+    str: A string containing the MySQL ALTER TABLE script.
+    """
+
+    # Mapping of Pandas/Numpy data types to MySQL data types
+    type_mapping = {
+        'int64': 'BIGINT',
+        'int32': 'INT',
+        'int16': 'SMALLINT',
+        'int8': 'TINYINT',
+        'float64': 'DOUBLE',
+        'float32': 'FLOAT',
+        'float16': 'FLOAT',  # MySQL does not have an exact equivalent for float16
+        'uint8': 'TINYINT UNSIGNED',
+        'uint16': 'SMALLINT UNSIGNED',
+        'uint32': 'INT UNSIGNED',
+        'uint64': 'BIGINT UNSIGNED',  # Included for completeness
+        'object': 'VARCHAR(255)',  # Default VARCHAR size, adjust as needed
+        'bool': 'BOOLEAN',
+        'datetime64[ns]': 'DATETIME'
+    }
+
+    # Generate the ALTER TABLE script
+    alter_statements = []
+    for column, dtype in df.dtypes.items():
+        mysql_type = type_mapping.get(dtype.name, 'VARCHAR(255)')
+        alter_statements.append(f"MODIFY COLUMN `{column}` {mysql_type}")
+
+    # Combine all statements into a single ALTER TABLE command
+    alter_script = f"ALTER TABLE `{table_name}` " + ",\n".join(alter_statements) + ";"
+    return alter_script
+
+# Example Usage:
+# df = pd.DataFrame({
+#     'a': pd.Series([1], dtype='uint8'),
+#     'b': pd.Series([1], dtype='float16'),
+#     'c': ['text'],
+#     'd': pd.to_datetime(['2021-01-01']),
+#     'e': pd.Series([1], dtype='uint16'),
+#     'f': pd.Series([1], dtype='uint32'),
+#     # Add other columns as needed
+# })
+# script = generate_mysql_dtype_script(df, 'your_table_name')
+# print(script)
