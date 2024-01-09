@@ -47,3 +47,37 @@ optimized_df = numeric_df_optimizer(original_df)
 ## Disclaimer
 - The script assumes that the input DataFrame is well-formed and contains numeric columns that can benefit from data type optimization.
 - The performance may vary based on the DataFrame's structure and content.
+
+------------------
+
+# NEW! MySQL Table Schema Generator
+
+This section introduces a Python function `generate_mysql_dtype_script` designed to create a MySQL ALTER TABLE script based on the schema of a Pandas DataFrame. It is particularly useful in scenarios where the DataFrame's schema has been optimized for memory efficiency, and the same optimizations are desired in the corresponding MySQL database schema.
+
+### Functionality
+
+- Maps Pandas/Numpy data types to the closest MySQL data types.
+- Generates ALTER TABLE scripts to modify existing MySQL tables to align with DataFrame schemas.
+- Useful for ensuring data type consistency between in-memory (Pandas) and database (MySQL) representations.
+
+### Usage
+
+1. Ensure you have Pandas installed in your environment.
+2. Import the function using `from your_script_name import generate_mysql_dtype_script`.
+3. Pass your DataFrame and the target MySQL table name to the function.
+4. Execute the returned script in your MySQL database environment.
+
+### Example
+
+```python
+import pandas as pd
+from your_script_name import generate_mysql_script
+
+# Example DataFrame
+df = pd.DataFrame({
+    # Your DataFrame columns and data here
+})
+
+# Generate the ALTER TABLE script
+script = generate_mysql_dtype_script(df, 'your_mysql_table_name')
+print(script)
