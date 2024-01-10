@@ -155,7 +155,7 @@ def generate_mysql_dtype_script(df: pd.DataFrame, table_name: str) -> str:
     # Generate the ALTER TABLE script
     alter_statements = []
     for column, dtype in df.dtypes.items():
-        mysql_type = type_mapping.get(dtype.name, 'VARCHAR(255)')
+        mysql_type = type_mapping.get(dtype.name.lower(), 'VARCHAR(255)')
         alter_statements.append(f"MODIFY COLUMN `{column}` {mysql_type}")
 
     # Combine all statements into a single ALTER TABLE command
